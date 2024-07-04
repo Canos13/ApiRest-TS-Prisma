@@ -1,0 +1,136 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation  REST API - TS",
+        "version": "1.0.0",
+        "description": "API documentation for my REST API/TS/PRISMA"
+    },
+    "servers": [{
+        "url": "http://localhost:3000/_v/api"
+    }],
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "The auto-generated id of the user"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the user"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "The email of the user"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "The password of the user"
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "name": "John Doe",
+                    "email": "john.doe@example.com",
+                    "password": "secret"
+                }
+            }
+        }
+    },
+    "paths": {
+        "/users": {
+            "get": {
+                "summary": "Returns a list of users",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "The page number"
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageSize",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "The number of items per page"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/updateUser/{id}": {
+            "put": {
+                "summary": "Update a user by ID",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [ {
+                    "in": "path",
+                    "name": "id",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "required": true,
+                    "description": "The user ID"
+                }],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The updated user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}
